@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
 cat <<EOF
----
+addons: []
+default_process_types:
+  web: python app.py
 EOF
