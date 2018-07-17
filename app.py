@@ -22,7 +22,7 @@ import logging
 from LightClassification import *
 
 ### Importing the Eye Module ###
-import eye as checker
+#import eye as checker
 
 
 
@@ -202,29 +202,29 @@ def Learn():
 
 
 ################################################# SignUp #######################################################
-@app.route('/signup/web', methods=['POST'])
-def SignUpWeb():
-    if not request.json or not 'password' in request.json and 'UserName' in request.json and 'email' in request.json:
-        abort(400)
+# @app.route('/signup/web', methods=['POST'])
+# def SignUpWeb():
+#     if not request.json or not 'password' in request.json and 'UserName' in request.json and 'email' in request.json:
+#         abort(400)
 
-    username = request.json['UserName']
-    password = request.json['password']
-    email = request.json['email']
-    code = checker.register_password(username,password,email)
-    print(code)
-    if code == 101:
-        return jsonify({'response': "Operation succeeded. New User added to database",
-        'state':'101'
+#     username = request.json['UserName']
+#     password = request.json['password']
+#     email = request.json['email']
+#     code = checker.register_password(username,password,email)
+#     print(code)
+#     if code == 101:
+#         return jsonify({'response': "Operation succeeded. New User added to database",
+#         'state':'101'
         
-        }), 200
-    elif code == 104:
-        return jsonify({'response': "This user is exist.",
-        'state':'104'
-        }), 200
-    elif code == 105:
-        return jsonify({'response': "There's a problem in the database.",
-        'state':'105'
-        }), 200
+#         }), 200
+#     elif code == 104:
+#         return jsonify({'response': "This user is exist.",
+#         'state':'104'
+#         }), 200
+#     elif code == 105:
+#         return jsonify({'response': "There's a problem in the database.",
+#         'state':'105'
+#         }), 200
 
 
 
@@ -234,109 +234,109 @@ def SignUpWeb():
 
 
 
-@app.route('/signup', methods=['POST'])
-def SignUp():
-    if not request.json and not 'PhotoUrl' in request.json and 'UserName' in request.json and 'password' in request.json:
-        abort(400)
-        '''
-        pull the user data from the json requests
-        - Username
-        - image URL
-        - 4 digit pin code (Not Confirmed)
+# @app.route('/signup', methods=['POST'])
+# def SignUp():
+#     if not request.json and not 'PhotoUrl' in request.json and 'UserName' in request.json and 'password' in request.json:
+#         abort(400)
+#         '''
+#         pull the user data from the json requests
+#         - Username
+#         - image URL
+#         - 4 digit pin code (Not Confirmed)
 
-        '''
+#         '''
 
-    # invoke the Memory and Eye Function
-    imageURL = request.json['PhotoUrl']
-    userName = request.json['UserName']
-    userpass = request.json['password']
+#     # invoke the Memory and Eye Function
+#     imageURL = request.json['PhotoUrl']
+#     userName = request.json['UserName']
+#     userpass = request.json['password']
 
-    code = checker.register(userName, imageURL, userpass)
-    # Adding new User in the database with his username and his image
-    # Case 1: this means the operation succeeded.
-    if code == 101:
-        return jsonify({'response': "Operation succeeded. New User added to database",
-        "code":True
-        }), 200
-    # Case 2: this means that I can not read the picture (not Exist).
-    elif code == 102:
-        return jsonify({'response': "Cannot read the picture (not Exist).",
-        "code":False
-        }), 200
-    # Case 3: this means that I can not find any faces in the picture (retake a picture)
-    elif code == 103:
-        return jsonify({'response': "Cannot find any faces in the picture (retake the picture).",
-        "code":False
-        }), 200
-    # Case 4: this means that the user is exist.
-    elif code == 104:
-        return jsonify({'response': "This user is exist.",
-        "code":False
-        }), 200
-    # Case 5: this means a memory (database) error.
-    elif code == 105:
-        return jsonify({'response': "There's a problem in the database.",
-        "code":False
-        }), 200
-
-
-################################################# SignIn #######################################################
-
-@app.route('/signin/web', methods=['POST'])
-def SignInWeb():
-    if not request.json or not 'password' in request.json and 'UserName' in request.json:
-        abort(400)
+#     code = checker.register(userName, imageURL, userpass)
+#     # Adding new User in the database with his username and his image
+#     # Case 1: this means the operation succeeded.
+#     if code == 101:
+#         return jsonify({'response': "Operation succeeded. New User added to database",
+#         "code":True
+#         }), 200
+#     # Case 2: this means that I can not read the picture (not Exist).
+#     elif code == 102:
+#         return jsonify({'response': "Cannot read the picture (not Exist).",
+#         "code":False
+#         }), 200
+#     # Case 3: this means that I can not find any faces in the picture (retake a picture)
+#     elif code == 103:
+#         return jsonify({'response': "Cannot find any faces in the picture (retake the picture).",
+#         "code":False
+#         }), 200
+#     # Case 4: this means that the user is exist.
+#     elif code == 104:
+#         return jsonify({'response': "This user is exist.",
+#         "code":False
+#         }), 200
+#     # Case 5: this means a memory (database) error.
+#     elif code == 105:
+#         return jsonify({'response': "There's a problem in the database.",
+#         "code":False
+#         }), 200
 
 
-    username = request.json['UserName']
-    password = request.json['password']
-    code,uname,uid = checker.login_password(username,password)
-    if code == 501:
-        return jsonify({'response': "welcome " + uname,
-        'userName': uname,
-        'userID':uid
+# ################################################# SignIn #######################################################
+
+# @app.route('/signin/web', methods=['POST'])
+# def SignInWeb():
+#     if not request.json or not 'password' in request.json and 'UserName' in request.json:
+#         abort(400)
+
+
+#     username = request.json['UserName']
+#     password = request.json['password']
+#     code,uname,uid = checker.login_password(username,password)
+#     if code == 501:
+#         return jsonify({'response': "welcome " + uname,
+#         'userName': uname,
+#         'userID':uid
         
-         }), 200
-    # Case 2: this means that I can not read the picture (not Exist).
-    else:
-        return jsonify({'respone':"user name or password is incorrect"}), 200
+#          }), 200
+#     # Case 2: this means that I can not read the picture (not Exist).
+#     else:
+#         return jsonify({'respone':"user name or password is incorrect"}), 200
 
 
 
 
 
-@app.route('/signin', methods=['POST'])
-def SignIn():
-    if not request.json or not 'PhotoUrl' in request.json:
-        abort(400)
+# @app.route('/signin', methods=['POST'])
+# def SignIn():
+#     if not request.json or not 'PhotoUrl' in request.json:
+#         abort(400)
 
-    # invoke the Memory and Eye Function
-    imageURL = request.json['PhotoUrl']
+#     # invoke the Memory and Eye Function
+#     imageURL = request.json['PhotoUrl']
 
-    # Login with the image of the user
-    code,userName,userID = checker.login(imageURL)
-    # Case 1 this mean that the user is exist.
-    if code == 201:
-        return jsonify({'response': "Operation succeeded." + userID,
-        'userName': userName,
-        'userID':userID,
-        "code":True
-        }), 200
-    # Case 2 this means that I can not read the picture (not Exist).
-    elif code == 202:
-        return jsonify({'response': "Cannot read the picture (not Exist).",
-        "code":False
-        }), 200
-    # Case 3: this means that I can not find any faces in the picture (retake a picture).
-    elif code == 203:
-        return jsonify({'response': "Cannot find any faces in the picture (retake the picture).",
-        "code":False
-        }), 200
-    # Case 4: this means that I can not recognize this person.
-    elif code == 204:
-        return jsonify({'response': "I can not recognize this person.",
-        "code":False
-        }), 200
+#     # Login with the image of the user
+#     code,userName,userID = checker.login(imageURL)
+#     # Case 1 this mean that the user is exist.
+#     if code == 201:
+#         return jsonify({'response': "Operation succeeded." + userID,
+#         'userName': userName,
+#         'userID':userID,
+#         "code":True
+#         }), 200
+#     # Case 2 this means that I can not read the picture (not Exist).
+#     elif code == 202:
+#         return jsonify({'response': "Cannot read the picture (not Exist).",
+#         "code":False
+#         }), 200
+#     # Case 3: this means that I can not find any faces in the picture (retake a picture).
+#     elif code == 203:
+#         return jsonify({'response': "Cannot find any faces in the picture (retake the picture).",
+#         "code":False
+#         }), 200
+#     # Case 4: this means that I can not recognize this person.
+#     elif code == 204:
+#         return jsonify({'response': "I can not recognize this person.",
+#         "code":False
+#         }), 200
 
 ################################################# Main API  #######################################################
 
