@@ -22,7 +22,7 @@ import logging
 from LightClassification import *
 
 ### Importing the Eye Module ###
-import eye as checker
+#import eye as checker
 
 
 
